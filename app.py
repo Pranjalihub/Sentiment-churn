@@ -1,6 +1,7 @@
 import streamlit as st
 import pickle
 from textblob import TextBlob
+st.write("✅ TextBlob successfully imported!")
 
 # Load model and encoders
 model = pickle.load(open("churn_model.pkl", "rb"))
@@ -36,4 +37,5 @@ if st.button("Predict Churn"):
     if prediction == 1:
         st.warning("⚠️ This customer is likely to churn.")
     else:
+
         st.success("✅ This customer is likely to stay.")
