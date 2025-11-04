@@ -1,5 +1,10 @@
 import streamlit as st
 import pickle
+import nltk
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+nltk.download('vader_lexicon')
+
+sid = SentimentIntensityAnalyzer()
 # Load model and encoders
 model = pickle.load(open("churn_model.pkl", "rb"))
 encoders = pickle.load(open("encoders.pkl", "rb"))
@@ -10,14 +15,15 @@ st.title("📊 Customer Sentiment & Churn Prediction App")
 st.header("📝 Sentiment Analysis")
 feedback = st.text_area("Enter customer feedback here:")
 
-if st.button("Analyze Sentiment"):
-    polarity = TextBlob(feedback).sentiment.polarity
-    if polarity > 0:
-        st.success("Sentiment: Positive 😀")
-    elif polarity < 0:
-        st.error("Sentiment: Negative 😞")
+def get_sentiment(text):
+    score = sid.polarity_scores(text)
+    compound = score['compound']
+    if compound > 0.05:
+        return "positive"
+    elif compound < -0.05:
+        return "negative"
     else:
-        st.info("Sentiment: Neutral 😐")
+        return "neutral"
 
 # --- Churn Prediction ---
 st.header("🔮 Churn Prediction")
@@ -36,5 +42,6 @@ if st.button("Predict Churn"):
     else:
 
         st.success("✅ This customer is likely to stay.")
+
 
 
