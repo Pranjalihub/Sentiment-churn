@@ -1,13 +1,5 @@
 import streamlit as st
-try:
-    from textblob import TextBlob
-    st.success("✅ TextBlob imported successfully!")
-except Exception as e:
-    st.error(f"⚠️ TextBlob import failed: {e}")
 import pickle
-from textblob import TextBlob
-st.write("✅ TextBlob successfully imported!")
-
 # Load model and encoders
 model = pickle.load(open("churn_model.pkl", "rb"))
 encoders = pickle.load(open("encoders.pkl", "rb"))
@@ -44,4 +36,5 @@ if st.button("Predict Churn"):
     else:
 
         st.success("✅ This customer is likely to stay.")
+
 
