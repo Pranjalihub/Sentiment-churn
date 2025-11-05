@@ -2,7 +2,12 @@ import streamlit as st
 import pickle
 import nltk
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
-nltk.download('vader_lexicon')
+
+# Download VADER lexicon if not already present
+try:
+    nltk.data.find('sentiment/vader_lexicon.zip')
+except LookupError:
+    nltk.download('vader_lexicon')
 
 sid = SentimentIntensityAnalyzer()
 # Load model and encoders
@@ -42,6 +47,7 @@ if st.button("Predict Churn"):
     else:
 
         st.success("✅ This customer is likely to stay.")
+
 
 
 
